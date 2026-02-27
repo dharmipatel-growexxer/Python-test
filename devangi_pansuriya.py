@@ -256,16 +256,7 @@ class Bank:
                 r["mobile"] = new_mobile
         self._write_csv(self.USERS_FILE, ["customer_key", "full_name", "mobile", "address", "balance"], rows)
 
-    def update_address(self, customer_key, new_address):
-        self._ensure_session(customer_key)
-        user, rows = self._get_user_row(customer_key)
-        if not user:
-            raise KeyError("User not found")
-        for r in rows:
-            if r["customer_key"] == customer_key:
-                r["address"] = new_address
-        self._write_csv(self.USERS_FILE, ["customer_key", "full_name", "mobile", "address", "balance"], rows)
-
+   
  
     
 
@@ -284,10 +275,10 @@ def main():
             print("3. Check Balance")
             print("4. Show User Details")
             print("5. Update Mobile")
-            print("6. Update Address")
            
-            print("7. Logout")
-            print("8. Exit")
+           
+            print("6. Logout")
+            print("7. Exit")
         else:
             print("1. Create Account")
             print("2. Login")
@@ -351,18 +342,13 @@ def main():
                     bank.update_mobile(logged_in_customer, new_mobile)
                     print("Mobile number updated successfully!")
 
+        
                 elif choice == "6":
-                    new_address = input("Enter new address: ")
-                    bank.update_address(logged_in_customer, new_address)
-                    print("Address updated successfully!")
-
-
-                elif choice == "7":
                     bank.logout(logged_in_customer)
                     logged_in_customer = None
                     print("Logged out successfully!")
 
-                elif choice == "8":
+                elif choice == "7":
                     bank.logout(logged_in_customer)
                     print("Thank you for using Banking System. Goodbye!")
                     break
