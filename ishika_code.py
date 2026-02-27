@@ -20,7 +20,7 @@ class BankSystem:
        self.current_user = None
        self.session_start = None
        self.initialize_files()
-   # Create files if not exist
+  
    def initialize_files(self):
        if not os.path.exists("users.csv"):
            with open("users.csv", "w", newline="") as f:
@@ -31,17 +31,17 @@ class BankSystem:
                writer = csv.writer(f)
                writer.writerow(["CustomerKey", "Password"])
    def create_account(self):
-       name = input("Full Name: ")
-       mobile = input("Mobile Number: ")
-       address = input("Address: ")
-       password = input("Password: ")
-       deposit = input("Initial Deposit: ")
+       name = input("enter Full Name: ")
+       mobile = input("enter Mobile Number: ")
+       address = input("enter Address: ")
+       password = input("enter your Password: ")
+       deposit = input("enter Initial Deposit: ")
        if not mobile.isdigit() or len(mobile) != 10:
-           raise ValidationException("Mobile must be exactly 10 digits")
+           raise ValidationException("Mobile number should be of 10 digits")
        if not password:
-           raise ValidationException("Password cannot be empty")
+           raise ValidationException("Password should not be empty")
        if not deposit.replace('.', '', 1).isdigit() or float(deposit) <= 0:
-           raise InvalidAmountException("Deposit must be positive")
+           raise InvalidAmountException("Deposit amount should be positive")
        customer_key = "CUST" + str(int(time.time()))
        with open("users.csv", "a", newline="") as f:
            writer = csv.writer(f)
@@ -52,7 +52,7 @@ class BankSystem:
        with open(f"{customer_key}_transactions.csv", "w", newline="") as f:
            writer = csv.writer(f)
            writer.writerow(["Date", "Time", "Type", "Amount", "Balance"])
-       print("Account Created Successfully!")
+       print("Your Account Created Successfully!")
        print("Your Customer Key:", customer_key)
    def login(self):
        attempts = 0
@@ -70,7 +70,7 @@ class BankSystem:
                        return
            attempts += 1
            print("Invalid credentials. Attempts left:", 3 - attempts)
-       raise InvalidLoginException("Maximum login attempts exceeded.")
+       raise InvalidLoginException("Max login attempts exceeded.")
    def check_session(self):
        if self.session_start:
            if time.time() - self.session_start > 300:
@@ -79,7 +79,7 @@ class BankSystem:
    def logout(self):
        self.current_user = None
        self.session_start = None
-       print("Logged out successfully!")
+       print("Logged out successfully")
    def get_balance(self):
        with open("users.csv", "r") as f:
            reader = csv.reader(f)
@@ -117,7 +117,7 @@ class BankSystem:
        new_balance = balance + float(amount)
        self.update_balance(new_balance)
        self.record_transaction("DEPOSIT", amount, new_balance)
-       print("Deposit successful!")
+       print("Amount Deposited successful")
    def withdraw(self):
        amount = input("Enter withdrawal amount: ")
        if not amount.replace('.', '', 1).isdigit() or float(amount) <= 0:
@@ -128,7 +128,7 @@ class BankSystem:
        new_balance = balance - float(amount)
        self.update_balance(new_balance)
        self.record_transaction("WITHDRAW", amount, new_balance)
-       print("Withdrawal successful!")
+       print("Amount Withdrawal successfully")
    def show_balance(self):
        print("Current Balance:", self.get_balance())
    def show_user_details(self):
@@ -155,9 +155,9 @@ class BankSystem:
        with open("users.csv", "w", newline="") as f:
            writer = csv.writer(f)
            writer.writerows(rows)
-       print("Mobile number updated!")
+       print("your Mobile number updated")
    def update_address(self):
-       new_address = input("New Address: ")
+       new_address = input("New Address is : ")
        if not new_address.strip():
            raise ValidationException("Address cannot be empty")
        rows = []
@@ -182,7 +182,7 @@ class BankSystem:
 def main():
    bank = BankSystem()
    while True:
-       print("\n==== BANK MANAGEMENT SYSTEM ====")
+       print(" BANK MANAGEMENT SYSTEM ")
        print("1. Create Account")
        print("2. Login")
        print("3. Exit")
